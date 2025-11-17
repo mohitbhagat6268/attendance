@@ -7,7 +7,7 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: "https://your-frontend-domain.vercel.app" }));
 app.use(express.json());
 
 // ================= DATABASE SETUP =================
@@ -75,7 +75,7 @@ function resetUsersToFriends() {
 resetUsersToFriends();
 
 // ================= AUTH LOGIC =================
-const JWT_SECRET = 'verysecret_demo_key_change_in_prod';
+const JWT_SECRET = process.env.JWT_SECRET || 'verysecret_demo_key_change_in_prod';
 
 app.post('/login', (req, res) => {
   const { username, password, role } = req.body;
@@ -158,8 +158,19 @@ app.post('/api/newtoken', (req, res) => {
     res.json({ success: true, message: 'Token saved', id: this.lastID });
   });
 });
+// ================= TEACHER: FETCH ALL ATTENDANCE =================
+app.get('/teacher-all', authMiddleware, (req, res) => {
+  // only teachers allowed
+  if (req.user.role !== 'teacher') {
+    return res.status(403).json({ success: false, message: 'Only teachers allowed' });
+  }
 
+  db.all("SELECT id, student_id AS studentId, username, subject, date, time, qrCode FROM attendance ORDER BY date DESC, time DESC", (err, rows) => {
+    if (err) return res.status(500).json({ success: false, message: err.message });
+    // return in a stable shape
+    res.json({ success: true, records: rows });
+  });
+});
 // ================= START SERVER =================
-const PORT = 5002;
+const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
