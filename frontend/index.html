@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Attendance</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h2>Welcome Back 👋</h2>
+      <p class="subtitle">Login to continue to Attendance System</p>
+      <form id="loginForm">
+        <label for="username">Username</label>
+        <input id="username" placeholder="Enter your username" required />
+
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Enter your password" required />
+
+        <label for="role">Role</label>
+        <select id="role">
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+        </select>
+
+        <button type="submit">Login</button>
+      </form>
+      <p class="hint">
+        <b>Teacher</b>: TBIT1234 / teacher@123 <br>
+        <b>Student</b>: TBIT1234 / student@123
+      </p>
+    </div>
+  </div>
+
+  <!-- JavaScript (optional) -->
+  <script src="js/login.js"></script>
+</body>
+</html>

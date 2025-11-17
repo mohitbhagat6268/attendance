@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Teacher - Attendance</title>
+  <link rel="stylesheet" href="css/style-student.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Table styling */
+    #attTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 14px;
+      animation: fadeIn 0.6s ease;
+    }
+    #attTable th, #attTable td {
+      padding: 12px 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    #attTable tr:nth-child(even) { background: #f9f9f9; }
+    #attTable tr:hover { background: #eef3f8; }
+    th {
+      background: #2575fc;
+      color: white;
+      border-radius: 6px 6px 0 0;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #searchInput {
+      padding: 8px;
+      width: 100%;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h3>Attendance</h3>
+      <ul>
+        <li id="nav-view" class="active">📊 See Attendance</li>
+        <li id="logout">🚪 Log Out</li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <header>
+        <div>Teacher: <span id="usern">John Doe</span></div>
+      </header>
+
+      <!-- Attendance Table Section -->
+      <section id="view-section" class="card show">
+        <h3>All Attendance Records</h3>
+        <input type="text" id="searchInput" placeholder="Search by student...">
+        <table id="attTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Student</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rows will be loaded dynamically -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Example dynamic attendance data (replace with API if needed)
+    const attendanceData = [
+      {id:1, student:'Alice', date:'2025-10-01', status:'Present'},
+      {id:2, student:'Bob', date:'2025-10-01', status:'Absent'},
+      {id:3, student:'Charlie', date:'2025-10-01', status:'Present'},
+      {id:4, student:'Alice', date:'2025-10-02', status:'Absent'},
+      {id:5, student:'Bob', date:'2025-10-02', status:'Present'}
+    ];
+
+    const tbody = document.querySelector('#attTable tbody');
+
+    function loadTable(data) {
+      tbody.innerHTML = '';
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.id}</td>
+                        <td>${row.student}</td>
+                        <td>${row.date}</td>
+                        <td>${row.status}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    loadTable(attendanceData);
+
+    // Search/filter functionality
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+      const filter = searchInput.value.toLowerCase();
+      const filtered = attendanceData.filter(row => row.student.toLowerCase().includes(filter));
+      loadTable(filtered);
+    });
+
+    // Logout button
+    document.getElementById('logout').onclick = () => {
+      localStorage.clear();
+      window.location.href = 'index.html';
+    };
+  </script>
+</body>
+</html>
